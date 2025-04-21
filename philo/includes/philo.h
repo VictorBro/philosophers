@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:18:08 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 03:25:07 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/04/21 12:23:11 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int		ft_msleep(long msec);
 void	print_action(t_philo *philo, t_action action);
 int		is_dead(t_philo *philo);
 int		update_deadline(t_philo *philo);
-void	time_print_helper(t_data *philo_data, unsigned long time,
+void	print_dead_time(t_data *philo_data, unsigned long time,
 			unsigned int idx);
 int		go_sleep(t_philo *philo);
 int		eat(t_philo *philo);

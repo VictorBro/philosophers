@@ -6,16 +6,34 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:29:00 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 02:23:36 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/04/21 22:44:27 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	alloc_data(t_data *philo_data)
+int	init_philo(t_data *philo_data)
 {
 	unsigned int	i;
+	unsigned long	now;
 
+	if (current_time_ms(&now) != OK)
+		return (ft_error("error: current_time_ms failed", INTERNAL_ERROR));
+	i = 0;
+	while (i < philo_data->philos_nbr)
+	{
+		philo_data->philos[i].idx = i;
+		philo_data->philos[i].meals_eaten = 0;
+		philo_data->philos[i].dead = FALSE;
+		philo_data->philos[i].data = philo_data;
+		philo_data->philos[i].deadline = now + philo_data->time2die;
+		i++;
+	}
+	return (OK);
+}
+
+int	alloc_data(t_data *philo_data)
+{
 	philo_data->philos = ft_calloc(sizeof(t_philo), philo_data->philos_nbr);
 	if (!philo_data->philos)
 		return (ft_error("error: philos allocation failed", ALLOC_ERROR));
@@ -26,16 +44,7 @@ int	alloc_data(t_data *philo_data)
 		philo_data->philos = NULL;
 		return (ft_error("error: forks allocation failed", ALLOC_ERROR));
 	}
-	i = 0;
-	while (i < philo_data->philos_nbr)
-	{
-		philo_data->philos[i].idx = i;
-		philo_data->philos[i].meals_eaten = 0;
-		philo_data->philos[i].dead = FALSE;
-		philo_data->philos[i].data = philo_data;
-		i++;
-	}
-	return (OK);
+	return (init_philo(philo_data));
 }
 
 int	init_fork_mutexes(t_data *philo_data)
@@ -77,28 +86,6 @@ int	init_philo_mutexes(t_philo *philo)
 	return (OK);
 }
 
-int	init_mutexes(t_data *philo_data)
-{
-	unsigned int	i;
-	int				res;
-
-	res = mutex_op(&philo_data->lock_print, INIT);
-	if (res != OK)
-		return (res);
-	res = init_fork_mutexes(philo_data);
-	if (res != OK)
-		return (mutex_op(&philo_data->lock_print, DESTROY));
-	i = 0;
-	while (i < philo_data->philos_nbr)
-	{
-		res = init_philo_mutexes(&philo_data->philos[i]);
-		if (res != OK)
-			return (reverse_mutex_destroy(philo_data, i, res));
-		i++;
-	}
-	return (OK);
-}
-
 int	init_data(t_data *philo_data, int argc, char *argv[])
 {
 	if (ft_atou(argv[1], &philo_data->philos_nbr) != OK
@@ -119,7 +106,5 @@ int	init_data(t_data *philo_data, int argc, char *argv[])
 					ARG_ERROR));
 		philo_data->meals_isset = TRUE;
 	}
-	if (alloc_data(philo_data) != OK)
-		return (ALLOC_ERROR);
-	return (OK);
+	return (alloc_data(philo_data));
 }

@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:39:36 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 03:23:31 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/04/21 12:23:13 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	kill_other_philos(t_data *philo_data, unsigned int idx)
 		{
 			time_died = philo_ptr->deadline;
 			mutex_op(&philo_ptr->lock_dead, UNLOCK);
-			time_print_helper(philo_data, time_died, idx);
+			print_dead_time(philo_data, time_died, idx);
 		}
 		else
 		{

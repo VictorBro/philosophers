@@ -9,6 +9,7 @@ FILES := main.c \
 		str_utils.c \
 		time_utils.c \
 		supervisor_utils.c \
+		mutex_utils.c \
 		thread_utils.c \
 		worker_routines.c \
 		eating_routine.c \

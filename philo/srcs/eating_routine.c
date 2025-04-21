@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:39:28 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 02:23:36 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:18:09 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	eat(t_philo *philo)
 	if (take_forks(philo) != OK)
 		return (DIED_ERROR);
 	print_action(philo, EAT);
-	ft_msleep(philo->data->time2eat);
-	leave_forks(philo);
 	if (update_deadline(philo) != OK)
 		return (DIED_ERROR);
+	ft_msleep(philo->data->time2eat);
+	leave_forks(philo);
 	mutex_op(&philo->lock_meals_eaten, LOCK);
 	if (philo->data->meals_isset)
 	{
