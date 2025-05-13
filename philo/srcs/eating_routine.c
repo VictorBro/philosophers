@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:39:28 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 15:18:09 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:16:04 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	eat(t_philo *philo)
 	print_action(philo, EAT);
 	if (update_deadline(philo) != OK)
 		return (DIED_ERROR);
-	ft_msleep(philo->data->time2eat);
+	sleep_and_check_death(philo, philo->data->time2eat, 10);
 	leave_forks(philo);
 	mutex_op(&philo->lock_meals_eaten, LOCK);
 	if (philo->data->meals_isset)

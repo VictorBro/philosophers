@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:18:08 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 12:23:11 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:18:56 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void	kill_other_philos(t_data *philo_data, unsigned int idx);
 void	join_threads(t_data *philo_data);
 void	ft_supervisor(t_data *philo_data);
 int		ft_msleep(long msec);
+void	sleep_and_check_death(t_philo *philo, unsigned int remain,
+			unsigned int step);
 void	print_action(t_philo *philo, t_action action);
 int		is_dead(t_philo *philo);
 int		update_deadline(t_philo *philo);

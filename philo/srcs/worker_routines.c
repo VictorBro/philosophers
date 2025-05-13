@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:40:11 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 02:44:45 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:15:38 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ int	go_sleep(t_philo *philo)
 	if (is_dead(philo) == TRUE)
 		return (DIED_ERROR);
 	print_action(philo, SLEEP);
-	ft_msleep(philo->data->time2sleep);
+	sleep_and_check_death(philo, philo->data->time2sleep, 10);
 	return (OK);
 }

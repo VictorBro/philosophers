@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 01:29:00 by vbronov           #+#    #+#             */
-/*   Updated: 2025/04/21 22:44:27 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:08:33 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	init_philo(t_data *philo_data)
 	unsigned long	now;
 
 	if (current_time_ms(&now) != OK)
-		return (ft_error("error: current_time_ms failed", INTERNAL_ERROR));
+		return (INTERNAL_ERROR);
 	i = 0;
 	while (i < philo_data->philos_nbr)
 	{
