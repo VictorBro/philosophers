@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:43:35 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/19 01:39:55 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/22 22:06:56 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,23 @@ int	get_time(long *current_time)
 	return (OK);
 }
 
-/* Sleep for precise milliseconds */
-void	precise_sleep(long ms)
+/* Sleep for precise milliseconds while checking if sim should stop */
+void	precise_sleep(long ms, t_data *data)
 {
 	long	start;
 	long	current;
+	long	elapsed;
 
 	if (get_time(&start) != OK)
 		return ;
 	while (TRUE)
 	{
+		if (should_stop(data))
+			return ;
 		if (get_time(&current) != OK)
 			return ;
-		if (current - start >= ms)
+		elapsed = current - start;
+		if (elapsed >= ms)
 			break ;
 		usleep(500);
 	}

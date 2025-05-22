@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:45:25 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/19 02:03:29 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:16:46 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static bool	handle_one_philo(t_philo *philo)
 	}
 	print_state(philo->data, philo->id, "has taken a fork");
 	while (!should_stop(philo->data))
-		usleep(1000);
+		usleep(500);
 	pthread_mutex_unlock(philo->left_fork);
 	return (false);
 }

@@ -14,6 +14,9 @@ CFLAGS := -Wall -Wextra -Werror -g3 -pthread
 ifdef DEBUG
     CFLAGS += -DDEBUG=1 -g
 endif
+ifdef SANITIZE
+	CFLAGS += -fsanitize=thread
+endif
 IFLAGS := -I$(INCLUDE_DIR)
 LFLAGS := -lpthread
 OBJECTS := $(addprefix $(OBJECT_DIR)/,$(FILES:.c=.o))

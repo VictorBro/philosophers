@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:44:56 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/19 02:22:35 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:52:52 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static bool	init_simulation(t_data *data, t_philo **philos,
 {
 	if (!init_mutexes(data, forks))
 	{
-		cleanup(data, *philos, *forks);
 		return (ft_error("error: failed to initialize mutexes",
 				INTERNAL_ERROR) && false);
 	}

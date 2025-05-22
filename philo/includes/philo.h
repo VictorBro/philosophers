@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:46:20 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/22 19:26:19 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:48:48 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_philo
 
 /* time_utils.c */
 int		get_time(long *current_time);
-void	precise_sleep(long ms);
+void	precise_sleep(long ms, t_data *data);
 
 /* print_utils.c */
 void	print_state(t_data *data, int id, char *state);

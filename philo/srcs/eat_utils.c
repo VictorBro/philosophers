@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:45:41 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/19 01:39:55 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/22 22:11:27 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	check_eat_count(t_philo *philo)
 		ft_error("error: failed to lock dead mutex", status);
 		return ;
 	}
-	philo->data->all_ate++;
+	if (philo->eat_count == philo->data->must_eat_count)
+		philo->data->all_ate++;
 	status = pthread_mutex_unlock(&philo->data->dead_mutex);
 	if (status != 0)
 		ft_error("error: failed to unlock dead mutex", status);
@@ -53,6 +54,7 @@ void	eat(t_philo *philo)
 	status = pthread_mutex_unlock(&philo->meal_mutex);
 	if (status != 0)
 		ft_error("error: failed to unlock meal mutex", status);
-	precise_sleep(philo->data->time_to_eat);
-	check_eat_count(philo);
+	precise_sleep(philo->data->time_to_eat, philo->data);
+	if (!should_stop(philo->data))
+		check_eat_count(philo);
 }
