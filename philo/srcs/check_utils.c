@@ -1,42 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time_utils.c                                       :+:      :+:    :+:   */
+/*   check_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 15:43:35 by vbronov           #+#    #+#             */
+/*   Created: 2025/05/18 15:45:57 by vbronov           #+#    #+#             */
 /*   Updated: 2025/05/19 01:39:55 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-/* Get current timestamp in milliseconds */
-int	get_time(long *current_time)
+/* Check if philosopher should stop (died or all ate enough) */
+bool	should_stop(t_data *data)
 {
-	struct timeval	tv;
+	bool	stop;
+	int		status;
 
-	if (gettimeofday(&tv, NULL) != OK)
-		return (ft_error("error: gettimeofday() failed", errno));
-	*current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (OK);
-}
-
-/* Sleep for precise milliseconds */
-void	precise_sleep(long ms)
-{
-	long	start;
-	long	current;
-
-	if (get_time(&start) != OK)
-		return ;
-	while (TRUE)
+	status = pthread_mutex_lock(&data->dead_mutex);
+	if (status != 0)
 	{
-		if (get_time(&current) != OK)
-			return ;
-		if (current - start >= ms)
-			break ;
-		usleep(500);
+		ft_error("error: failed to lock dead mutex", status);
+		return (true);
 	}
+	stop = data->someone_died
+		|| (data->must_eat_count > 0 && data->all_ate >= data->num_philos);
+	status = pthread_mutex_unlock(&data->dead_mutex);
+	if (status != 0)
+		ft_error("error: failed to unlock dead mutex", status);
+	return (stop);
 }

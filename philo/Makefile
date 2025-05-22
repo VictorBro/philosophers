@@ -5,16 +5,18 @@ INCLUDE_DIR := includes
 SRC_DIR := srcs
 BONUS_DIR :=
 FILES := main.c \
-		init_utils.c \
-		str_utils.c \
 		time_utils.c \
-		supervisor_utils.c \
-		mutex_utils.c \
-		thread_utils.c \
-		worker_routines.c \
-		eating_routine.c \
-		exit_utils.c \
-		extra_utils.c
+		print_utils.c \
+		check_utils.c \
+		fork_utils.c \
+		eat_utils.c \
+		thread_routines.c \
+		init_utils.c \
+		philo_init_utils.c \
+		simulation_utils.c \
+		cleanup_utils.c \
+		monitor_utils.c \
+		parse_utils.c
 SRCS := $(addprefix $(SRC_DIR)/, $(FILES))
 BONUS_FILES :=
 CFLAGS := -Wall -Wextra -Werror -g3 -pthread

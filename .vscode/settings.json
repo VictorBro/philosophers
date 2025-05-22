@@ -3,5 +3,6 @@
         "philo.h": "c",
         "string.h": "c",
         "philo_bonus.h": "c",
+        "stdio.h": "c"
     }
 }
