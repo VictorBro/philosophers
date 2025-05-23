@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:44:16 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/22 19:26:38 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:57:24 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	terminate_threads(t_philo *philos, int count)
 	int	i;
 	int	status;
 
+	if (philos && philos[0].data)
+		mark_death(philos[0].data);
 	i = 0;
 	while (i < count)
 	{

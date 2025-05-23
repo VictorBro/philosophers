@@ -6,11 +6,12 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:44:46 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/19 02:18:56 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 13:46:32 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <limits.h>
 
 /* Parse arguments and validate values */
 static bool	validate_args(int argc, t_data *data)
@@ -36,38 +37,52 @@ static bool	validate_args(int argc, t_data *data)
 }
 
 /* Display usage message */
-static void	display_usage(void)
+static void	display_usage(char **argv)
 {
-	ft_error("usage: ./philo <number_of_philosophers>", ARG_ERROR);
-	ft_error(" <time_to_die> <time_to_eat> <time_to_sleep>", ARG_ERROR);
-	ft_error(" [number_of_times_each_must_eat]", ARG_ERROR);
+	printf("Usage: %s <number_of_philosophers> <time_to_die> ", argv[0]);
+	printf("<time_to_eat> <time_to_sleep> ");
+	printf("[number_of_times_each_philosopher_must_eat]\n");
+}
+
+/* Skip whitespace and get sign */
+static int	skip_space_get_sign(const char *str, int *i)
+{
+	int	sign;
+
+	sign = 1;
+	while (str[*i] == ' ' || str[*i] == '\t' || str[*i] == '\n'
+		|| str[*i] == '\v' || str[*i] == '\f' || str[*i] == '\r')
+		(*i)++;
+	if (str[*i] == '-' || str[*i] == '+')
+	{
+		if (str[*i] == '-')
+			sign = -1;
+		(*i)++;
+	}
+	return (sign);
 }
 
 /* Extract integer from string */
 static int	parse_int(const char *str)
 {
-	int	result;
-	int	sign;
-	int	i;
+	long	result;
+	int		sign;
+	int		i;
 
 	result = 0;
-	sign = 1;
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
+	sign = skip_space_get_sign(str, &i);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');
+		if ((sign == 1 && result > INT_MAX)
+			|| (sign == -1 && result * sign < INT_MIN))
+			return (0);
 		i++;
 	}
-	return (result * sign);
+	if (str[i] != '\0')
+		return (0);
+	return ((int)(result * sign));
 }
 
 /* Parse arguments */
@@ -75,7 +90,7 @@ bool	parse_args(int argc, char **argv, t_data *data)
 {
 	if (argc < 5 || argc > 6)
 	{
-		display_usage();
+		display_usage(argv);
 		return (false);
 	}
 	data->num_philos = parse_int(argv[1]);

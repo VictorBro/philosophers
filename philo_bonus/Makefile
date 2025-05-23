@@ -4,25 +4,32 @@ OBJECT_DIR := obj
 INCLUDE_DIR := includes
 SRC_DIR := srcs
 BONUS_DIR :=
-FILES := main_bonus.c \
+FILES := utils_bonus.c \
+		time_utils_bonus.c \
+		print_utils_bonus.c \
 		philosopher_bonus.c \
-		utils_bonus.c
+		main_bonus.c \
+		init_bonus.c \
+		monitor_bonus.c \
+		simulation_bonus.c \
+		philo_actions_bonus.c \
+		philo_utils_bonus.c \
+		cleanup_bonus.c
 SRCS := $(addprefix $(SRC_DIR)/, $(FILES))
 BONUS_FILES :=
-CFLAGS := -Wall -Wextra -Werror -g3 -pthread
+CFLAGS := -Wall -Wextra -Werror -g
 # DEBUG=1 make re to compile with debug flags
 ifdef DEBUG
     CFLAGS += -DDEBUG=1 -g
 endif
 ifdef SANITIZE
-	CFLAGS += -fsanitize=thread
+	CFLAGS += -fsanitize=address
 endif
 IFLAGS := -I$(INCLUDE_DIR)
 LFLAGS := -lpthread
 OBJECTS := $(addprefix $(OBJECT_DIR)/,$(FILES:.c=.o))
 BONUS_OBJ := $(addprefix $(BONUS_DIR)/,$(BONUS_FILES:.c=.o))
 CC := gcc
-DATA_RACE := valgrind --tool=drd
 LEAK_TOOL := valgrind --leak-check=full
 ARGS ?= 5 800 200 200
 
@@ -62,6 +69,3 @@ fclean: clean
 leak: $(NAME)
 	$(LEAK_TOOL) ./$(NAME) $(ARGS)
 
-.PHONY: data_race
-data_race: $(NAME)
-	$(DATA_RACE) ./$(NAME) $(ARGS)

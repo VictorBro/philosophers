@@ -1,9 +1,7 @@
 NAME := philo
-BONUS_NAME :=
 OBJECT_DIR := obj
 INCLUDE_DIR := includes
 SRC_DIR := srcs
-BONUS_DIR :=
 FILES := main.c \
 		time_utils.c \
 		print_utils.c \
@@ -18,11 +16,10 @@ FILES := main.c \
 		monitor_utils.c \
 		parse_utils.c
 SRCS := $(addprefix $(SRC_DIR)/, $(FILES))
-BONUS_FILES :=
-CFLAGS := -Wall -Wextra -Werror -g3 -pthread
+CFLAGS := -Wall -Wextra -Werror -pthread
 # DEBUG=1 make re to compile with debug flags
 ifdef DEBUG
-    CFLAGS += -DDEBUG=1 -g
+    CFLAGS += -DDEBUG=1 -g3
 endif
 ifdef SANITIZE
 	CFLAGS += -fsanitize=thread
@@ -30,7 +27,6 @@ endif
 IFLAGS := -I$(INCLUDE_DIR)
 LFLAGS := -lpthread
 OBJECTS := $(addprefix $(OBJECT_DIR)/,$(FILES:.c=.o))
-BONUS_OBJ := $(addprefix $(BONUS_DIR)/,$(BONUS_FILES:.c=.o))
 CC := gcc
 DATA_RACE := valgrind --tool=drd
 LEAK_TOOL := valgrind --leak-check=full
@@ -49,24 +45,16 @@ $(OBJECT_DIR)/%.o: $(SRC_DIR)/%.c
 $(BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-
-.PHONY: bonus
-bonus: $(BONUS_NAME)
-
-$(BONUS_NAME): $(BONUS_OBJ) $(NAME)
-	$(CC) $(CFLAGS) $(BONUS_OBJ) $(OBJS_WITHOUT_MAIN) $(LFLAGS) -o $(BONUS_NAME)
-
 .PHONY: re
 re: fclean all
 
 .PHONY: clean
 clean:
 	rm -rf $(OBJECT_DIR)
-	rm -f $(BONUS_OBJ)
 
 .PHONY: fclean
 fclean: clean
-	rm -f $(NAME) $(BONUS_NAME)
+	rm -f $(NAME)
 
 .PHONY: leak
 leak: $(NAME)

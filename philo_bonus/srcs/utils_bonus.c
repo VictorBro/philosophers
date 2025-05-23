@@ -5,66 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/21 01:29:00 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/01 18:03:00 by vbronov          ###   ########.fr       */
+/*   Created: 2025/05/23 00:15:34 by vbronov           #+#    #+#             */
+/*   Updated: 2025/05/23 13:49:52 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "../includes/philo_bonus.h"
+#include <limits.h>
 
-int	ft_atoi(const char *str)
+/* Skip whitespace and get sign */
+static int	skip_space_get_sign(const char *str, int *i)
 {
-	int	i;
 	int	sign;
-	int	result;
 
-	i = 0;
 	sign = 1;
-	result = 0;
-	
-	// Skip whitespace
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
-			str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
-		i++;
-	
-	// Check sign
-	if (str[i] == '-' || str[i] == '+')
+	while (str[*i] == ' ' || str[*i] == '\t' || str[*i] == '\n'
+		|| str[*i] == '\v' || str[*i] == '\f' || str[*i] == '\r')
+		(*i)++;
+	if (str[*i] == '-' || str[*i] == '+')
 	{
-		if (str[i] == '-')
+		if (str[*i] == '-')
 			sign = -1;
-		i++;
+		(*i)++;
 	}
-	
-	// Convert string to integer
+	return (sign);
+}
+
+/* Extract integer from string */
+int	parse_int(const char *str)
+{
+	long	result;
+	int		sign;
+	int		i;
+
+	result = 0;
+	i = 0;
+	sign = skip_space_get_sign(str, &i);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');
+		if ((sign == 1 && result > INT_MAX)
+			|| (sign == -1 && result * sign < INT_MIN))
+			return (0);
 		i++;
 	}
-	
-	return (result * sign);
-}
-
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) == -1)
-		return (-1);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	precise_sleep(long milliseconds)
-{
-	long	start_time;
-	long	current_time;
-
-	start_time = get_time();
-	while (1)
-	{
-		current_time = get_time();
-		if (current_time - start_time >= milliseconds)
-			break;
-		usleep(100);
-	}
+	if (str[i] != '\0')
+		return (0);
+	return ((int)(result * sign));
 }
