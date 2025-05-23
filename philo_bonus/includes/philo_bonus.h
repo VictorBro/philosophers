@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 14:48:51 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/23 17:13:34 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 21:44:29 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,10 @@ void	print_status(t_philo *philo, char *status);
 int		get_time_ms(long *current_time);
 void	precise_sleep(long milliseconds);
 int		parse_int(const char *str);
+void	create_sem_name(char *dest, const char *prefix, int philo_id);
+void	add_digit_to_name(char *dest, int *i, int digit);
+void	copy_prefix(char *dest, const char *prefix, int *i);
+void	add_id_to_name(char *dest, int philo_id, int *i);
 
 /* Initialization functions */
 int		init_data(t_data *data, int argc, char **argv);

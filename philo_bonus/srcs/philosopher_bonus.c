@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 00:10:23 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/23 17:13:28 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 21:59:30 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	init_philo(t_philo *philo, t_data *data, int philo_id)
 	philo->id = philo_id;
 	philo->data = data;
 	philo->meals_eaten = 0;
-	snprintf(philo->meal_time_sem_name, sizeof(philo->meal_time_sem_name),
-		"%s%d", SEM_MEAL_TIME, philo_id);
+	create_sem_name(philo->meal_time_sem_name, SEM_MEAL_TIME, philo_id);
 	sem_unlink(philo->meal_time_sem_name);
 	philo->meal_time_sem = sem_open(philo->meal_time_sem_name,
 			O_CREAT | O_EXCL, 0644, 1);
+	sem_unlink(philo->meal_time_sem_name);
 	if (philo->meal_time_sem == SEM_FAILED)
 	{
 		ft_error("Failed to create meal time semaphore", 1);
@@ -59,6 +59,7 @@ void	philosopher_routine(t_data *data, int philo_id)
 		clean_child_exit(&philo, 1);
 	}
 	pthread_detach(philo.monitor_thread);
+	print_status(&philo, "is thinking");
 	stagger_start(&philo);
 	if (data->nb_philos == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:44:46 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/23 13:46:32 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 19:39:20 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@
 static bool	validate_args(int argc, t_data *data)
 {
 	if (data->num_philos <= 0)
-		return (ft_error("error: number_of_philosophers must be positive",
-				ARG_ERROR) && false);
+		return (ft_error("error: number_of_philosophers must be positive "
+				"and less than MAX_INT", ARG_ERROR) && false);
 	if (data->time_to_die <= 0)
-		return (ft_error("error: time_to_die must be positive",
-				ARG_ERROR) && false);
+		return (ft_error("error: time_to_die must be positive "
+				"and less than MAX_INT", ARG_ERROR) && false);
 	if (data->time_to_eat <= 0)
-		return (ft_error("error: time_to_eat must be positive",
-				ARG_ERROR) && false);
+		return (ft_error("error: time_to_eat must be positive "
+				"and less than MAX_INT", ARG_ERROR) && false);
 	if (data->time_to_sleep <= 0)
-		return (ft_error("error: time_to_sleep must be positive",
-				ARG_ERROR) && false);
+		return (ft_error("error: time_to_sleep must be positive "
+				"and less than MAX_INT", ARG_ERROR) && false);
 	if (argc == 6 && data->must_eat_count <= 0)
 	{
-		return (ft_error("error: meals count must be positive",
-				ARG_ERROR) && false);
+		return (ft_error("error: meals count must be positive "
+				"and less than MAX_INT", ARG_ERROR) && false);
 	}
 	return (true);
 }

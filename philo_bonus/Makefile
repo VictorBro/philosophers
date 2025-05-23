@@ -14,7 +14,8 @@ FILES := utils_bonus.c \
 		simulation_bonus.c \
 		philo_actions_bonus.c \
 		philo_utils_bonus.c \
-		cleanup_bonus.c
+		cleanup_bonus.c \
+		sem_name_utils_bonus.c
 SRCS := $(addprefix $(SRC_DIR)/, $(FILES))
 BONUS_FILES :=
 CFLAGS := -Wall -Wextra -Werror -g

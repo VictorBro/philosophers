@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:45:57 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/19 01:39:55 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 19:27:15 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /* Check if philosopher should stop (died or all ate enough) */
 bool	should_stop(t_data *data)
 {
-	bool	stop;
 	int		status;
 
 	status = pthread_mutex_lock(&data->dead_mutex);
@@ -24,10 +23,9 @@ bool	should_stop(t_data *data)
 		ft_error("error: failed to lock dead mutex", status);
 		return (true);
 	}
-	stop = data->someone_died
-		|| (data->must_eat_count > 0 && data->all_ate >= data->num_philos);
 	status = pthread_mutex_unlock(&data->dead_mutex);
 	if (status != 0)
 		ft_error("error: failed to unlock dead mutex", status);
-	return (stop);
+	return (data->someone_died
+		|| (data->must_eat_count > 0 && data->all_ate >= data->num_philos));
 }

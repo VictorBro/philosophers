@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 01:49:09 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/23 17:14:02 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 21:36:52 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	clean_child_exit(t_philo *philo, int status)
 		sem_close(philo->data->eaters_sem);
 	if (philo->meal_time_sem != SEM_FAILED && philo->meal_time_sem != NULL)
 		sem_close(philo->meal_time_sem);
-	if (philo->meal_time_sem_name[0] != '\0')
-		sem_unlink(philo->meal_time_sem_name);
 	exit(status);
 }
 

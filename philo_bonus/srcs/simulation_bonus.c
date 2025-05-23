@@ -47,8 +47,6 @@ void	*meal_monitor_routine(void *arg)
 		sem_wait(data->meal_sem);
 		finished_eating++;
 	}
-	sem_wait(data->write_sem);
-	printf("All philosophers have eaten %d times\n", data->nb_times_to_eat);
 	i = 0;
 	while (i < data->nb_philos)
 	{

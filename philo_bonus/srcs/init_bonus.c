@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 01:49:09 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/23 17:13:37 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/23 21:35:00 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@ void	parse_arguments(t_data *data, int argc, char **argv)
 int	validate_arguments(t_data *data, int argc)
 {
 	if (data->nb_philos <= 0)
-		return (ft_error("Number of philosophers must be positive", ARG_ERROR));
+		return (ft_error("Number of philosophers must be positive "
+				"and less than MAX_INT", ARG_ERROR));
 	if (data->time_to_die <= 0 || data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0)
-		return (ft_error("Time values must be positive", ARG_ERROR));
+		return (ft_error("Time values must be positive "
+				"and less than MAX_INT", ARG_ERROR));
 	if (argc == 6 && data->nb_times_to_eat <= 0)
-		return (ft_error("Number of times to eat must be positive", ARG_ERROR));
+		return (ft_error("Number of times to eat must be positive "
+				"and less than MAX_INT", ARG_ERROR));
 	return (OK);
 }
-
-void	cleanup_semaphores(void);
 
 int	init_semaphores(t_data *data)
 {
@@ -50,6 +51,7 @@ int	init_semaphores(t_data *data)
 	if (data->nb_philos > 1)
 		max_eaters = data->nb_philos - 1;
 	data->eaters_sem = sem_open(SEM_EATERS, O_CREAT | O_EXCL, 0644, max_eaters);
+	cleanup_semaphores();
 	if (data->forks == SEM_FAILED)
 		return (ft_error("Forks semaphore init failed", SEMAPHORE_ERROR));
 	if (data->write_sem == SEM_FAILED)
