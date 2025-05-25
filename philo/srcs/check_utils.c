@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 15:45:57 by vbronov           #+#    #+#             */
-/*   Updated: 2025/05/23 19:27:15 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/05/25 03:08:51 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 bool	should_stop(t_data *data)
 {
 	int		status;
+	bool	ret;
 
 	status = pthread_mutex_lock(&data->dead_mutex);
 	if (status != 0)
@@ -23,9 +24,10 @@ bool	should_stop(t_data *data)
 		ft_error("error: failed to lock dead mutex", status);
 		return (true);
 	}
+	ret = data->someone_died
+		|| (data->must_eat_count > 0 && data->all_ate >= data->num_philos);
 	status = pthread_mutex_unlock(&data->dead_mutex);
 	if (status != 0)
 		ft_error("error: failed to unlock dead mutex", status);
-	return (data->someone_died
-		|| (data->must_eat_count > 0 && data->all_ate >= data->num_philos));
+	return (ret);
 }
